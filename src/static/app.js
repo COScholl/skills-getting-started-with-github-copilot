@@ -18,20 +18,44 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.createElement("div");
         card.className = "activity-card";
 
-        card.innerHTML = `
-          <h4>${name}</h4>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Location:</strong> ${details.location}</p>
-          <div class="participants-list">
-              <h5>Current Participants:</h5>
-              <ul>
-                  ${details.participants.length > 0 
-                      ? details.participants.map(email => `<li>${email}</li>`).join('')
-                      : '<li>No participants yet</li>'
-                  }
-              </ul>
-          </div>
-        `;
+        const title = document.createElement("h4");
+        title.textContent = name;
+
+        const schedule = document.createElement("p");
+        schedule.innerHTML = `<strong>Schedule:</strong> `;
+        const scheduleText = document.createTextNode(details.schedule);
+        schedule.appendChild(scheduleText);
+
+        const location = document.createElement("p");
+        location.innerHTML = `<strong>Location:</strong> `;
+        const locationText = document.createTextNode(details.location);
+        location.appendChild(locationText);
+
+        const participantsDiv = document.createElement("div");
+        participantsDiv.className = "participants-list";
+
+        const participantsTitle = document.createElement("h5");
+        participantsTitle.textContent = "Current Participants:";
+        participantsDiv.appendChild(participantsTitle);
+
+        const participantsList = document.createElement("ul");
+        if (details.participants.length > 0) {
+          details.participants.forEach(email => {
+            const listItem = document.createElement("li");
+            listItem.textContent = email;
+            participantsList.appendChild(listItem);
+          });
+        } else {
+          const noParticipantsItem = document.createElement("li");
+          noParticipantsItem.textContent = "No participants yet";
+          participantsList.appendChild(noParticipantsItem);
+        }
+        participantsDiv.appendChild(participantsList);
+
+        card.appendChild(title);
+        card.appendChild(schedule);
+        card.appendChild(location);
+        card.appendChild(participantsDiv);
 
         activitiesList.appendChild(card);
 
